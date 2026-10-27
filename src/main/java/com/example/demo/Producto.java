@@ -1,15 +1,28 @@
 package com.example.demo;
-import org.springframework.web.server.handler.DefaultWebFilterChain;
 
 import java.util.UUID;
-public class stock {
+public class Producto {
+    private String id;
     private String nombre;
     private int precio;
     private String calificacion;
-    private     String Descripcion ;
-    public stock() { this.nombre = UUID.randomUUID().toString();
+    private String descripcion;
+    public Producto() { this.id = UUID.randomUUID().toString();}
+    public Producto(String nombre, int precio, String calificacion, String descripcion){
+        this.id = UUID.randomUUID().toString();
+        this.nombre=nombre;
+        this.precio=precio;
+        this.calificacion=calificacion;
+        this.descripcion = descripcion;
     }
     // Getters y Setters
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {this.id = id;}
+
     public String getNombre() {
         return nombre;
     }
@@ -35,10 +48,10 @@ public class stock {
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
     public void setDescripcion(String descripcion) {
-        this.Descripcion = Descripcion;
+        this.descripcion = descripcion;
     }
 }
