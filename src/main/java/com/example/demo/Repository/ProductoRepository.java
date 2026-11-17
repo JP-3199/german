@@ -1,9 +1,11 @@
-package com.example.demo;
+package com.example.demo.Repository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.example.demo.Entity.Producto;
 import org.springframework.stereotype.Repository;
 @Repository
 public class ProductoRepository {

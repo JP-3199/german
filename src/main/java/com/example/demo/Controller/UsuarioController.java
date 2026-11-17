@@ -1,8 +1,10 @@
 
-package com.example.demo;
+package com.example.demo.Controller;
 import java.util.List;
 import java.util.Map;
 
+import com.example.demo.Entity.Usuario;
+import com.example.demo.Service.UsuarioService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;

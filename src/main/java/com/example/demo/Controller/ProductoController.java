@@ -1,8 +1,10 @@
-package com.example.demo;
+package com.example.demo.Controller;
 
 import java.util.List;
 import java.util.Map;
 
+import com.example.demo.Entity.Producto;
+import com.example.demo.Service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
