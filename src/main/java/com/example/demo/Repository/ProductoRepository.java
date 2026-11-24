@@ -9,8 +9,9 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
 
-    // Spring Data JPA ya te da gratis: save(), findById(), findAll(), deleteById()
+    // Spring Data JPA crea automáticamente los métodos:
+    // save(producto), findById(id), findAll(), deleteById(id), existsById(id)
 
-    // Consulta personalizada para filtrar por nombre ignorando mayúsculas/minúsculas
+    // Para tu filtro por nombre:
     List<Producto> findByNombreContainingIgnoreCase(String nombre);
 }
