@@ -1,11 +1,13 @@
 package com.example.demo.Service;
-import java.util.List;
-import java.util.Map;
 
 import com.example.demo.Entity.Usuario;
 import com.example.demo.Repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class UsuarioService {
 
@@ -14,14 +16,6 @@ public class UsuarioService {
     @Autowired
     public UsuarioService(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
-        // Inicializamos algunos datos de ejemplo
-        initSampleData();
-    }
-
-    private void initSampleData() {
-        save(new Usuario("Juan Pérez", "juan@example.com", 30));
-        save(new Usuario("María López", "maria@example.com", 25));
-        save(new Usuario("Carlos Ruiz", "carlos@example.com", 40));
     }
 
     // Crear un nuevo usuario
@@ -30,8 +24,9 @@ public class UsuarioService {
     }
 
     // Obtener un usuario por ID
-    public Usuario findById(String id) {
-        return usuarioRepository.findById(id);
+    public Usuario findById(Integer id) {
+        // .orElse(null) saca el Usuario del Optional, o devuelve null si no existe en MySQL
+        return usuarioRepository.findById(id).orElse(null);
     }
 
     // Listar todos los usuarios
@@ -39,40 +34,47 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    // Buscar por nombre
+    // Buscar por nombre (usa el uery Method que creamos en UsuarioRepository)
     public List<Usuario> findByNombre(String nombre) {
-        return usuarioRepository.findByNombreContaining(nombre);
+        return usuarioRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
     // Actualizar un usuario
     public Usuario update(Usuario usuario) {
-        return usuarioRepository.update(usuario);
+        // Verificamos que exista antes de actualizar para no crear uno nuevo por accidente
+        if (usuario.getId() != null && usuarioRepository.existsById(usuario.getId())) {
+            return usuarioRepository.save(usuario);
+        }
+        return null;
     }
 
     // Actualización parcial
-    public Usuario patch(String id, Map<String, Object> updates) {
-        Usuario usuario = usuarioRepository.findById(id);
+    public Usuario patch(Integer id, Map<String, Object> updates) {
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
         if (usuario != null) {
             updates.forEach((key, value) -> {
                 switch (key) {
                     case "nombre":
                         usuario.setNombre((String) value);
                         break;
+                    case "apellidos":
+                        usuario.setApellidos((String) value);
+                        break;
                     case "email":
                         usuario.setEmail((String) value);
                         break;
-                    case "edad":
-                        usuario.setEdad((Integer) value);
+                    case "pasword":
+                        usuario.setPasword((String) value);
                         break;
                 }
             });
-            return usuarioRepository.update(usuario);
+            return usuarioRepository.save(usuario);
         }
         return null;
     }
 
     // Eliminar un usuario
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         usuarioRepository.deleteById(id);
     }
 }

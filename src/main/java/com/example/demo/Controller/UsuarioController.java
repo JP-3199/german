@@ -77,7 +77,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Usuario encontrado"),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable String id) {
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable Integer id) {
         Usuario usuario = usuarioService.findById(id);
         if (usuario != null) {
             return new ResponseEntity<>(usuario, HttpStatus.OK);
@@ -103,7 +103,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Usuario actualizado con éxito"),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable String id,
+    public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id,
                                                  @RequestBody Usuario usuario) {
         Usuario existingUsuario = usuarioService.findById(id);
         if (existingUsuario != null) {
@@ -122,7 +122,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "200", description = "Producto actualizado parcialmente"),
             @ApiResponse(responseCode = "404", description = "Producto no encontrado")
     })
-    public ResponseEntity<Usuario> patchUpdateUsuario(@PathVariable String id,
+    public ResponseEntity<Usuario> patchUpdateUsuario(@PathVariable Integer id,
                                                       @RequestBody Map<String, Object> updates) {
         Usuario updatedUsuario = usuarioService.patch(id, updates);
         if (updatedUsuario != null) {
@@ -138,7 +138,7 @@ public class UsuarioController {
             @ApiResponse(responseCode = "204", description = "Usuario eliminado con éxito"),
             @ApiResponse(responseCode = "404", description = "Usuario no encontrado")
     })
-    public ResponseEntity<Void> deleteUsuario(@PathVariable String id) {
+    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
         Usuario existingUsuario = usuarioService.findById(id);
         if (existingUsuario != null) {
             usuarioService.deleteById(id);

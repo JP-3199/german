@@ -1,11 +1,13 @@
 package com.example.demo.Service;
-import java.util.List;
-import java.util.Map;
 
 import com.example.demo.Entity.Producto;
 import com.example.demo.Repository.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class ProductoService {
 
@@ -14,14 +16,6 @@ public class ProductoService {
     @Autowired
     public ProductoService(ProductoRepository productoRepository) {
         this.productoRepository = productoRepository;
-        // Inicializamos algunos datos de ejemplo
-        initSampleData();
-    }
-
-    private void initSampleData() {
-        save(new Producto("Espejos par moto", 30000, "excelente", "Espejos modernos para motos deportivas o Urbanas"));
-        save(new Producto("Espejos par moto", 30000, "excelente", "Espejos modernos para motos deportivas o Urbanas"));
-        save(new Producto("Espejos par moto", 30000, "excelente", "Espejos modernos para motos deportivas o Urbanas"));
     }
 
     // Crear un nuevo producto
@@ -29,28 +23,32 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    // Obtener un usuario por ID
-    public Producto findById(String id) {
-        return productoRepository.findById(id);
+    // Obtener un producto por ID
+    public Producto findById(Integer id) {
+        return productoRepository.findById(id).orElse(null);
     }
 
-    // Listar todos los usuarios
+    // Listar todos los productos
     public List<Producto> findAll() {
         return productoRepository.findAll();
     }
 
     // Buscar por nombre
     public List<Producto> findByNombre(String nombre) {
-        return productoRepository.findByNombreContaining(nombre);
+        return productoRepository.findByNombreContainingIgnoreCase(nombre);
     }
 
-    // Actualizar un usuario
-    public Producto update(Producto producto) {return productoRepository.update(producto);
+    // Actualizar un producto
+    public Producto update(Producto producto) {
+        if (producto.getId() != null && productoRepository.existsById(producto.getId())) {
+            return productoRepository.save(producto);
+        }
+        return null;
     }
 
     // Actualización parcial
-    public Producto patch(String id, Map<String, Object> updates) {
-        Producto producto = productoRepository.findById(id);
+    public Producto patch(Integer id, Map<String, Object> updates) {
+        Producto producto = productoRepository.findById(id).orElse(null);
         if (producto != null) {
             updates.forEach((key, value) -> {
                 switch (key) {
@@ -64,16 +62,17 @@ public class ProductoService {
                         producto.setCalificacion((String) value);
                         break;
                     case "descripcion":
-                        producto.setDescripcion((String)value);
+                        producto.setDescripcion((String) value);
+                        break;
                 }
             });
-            return productoRepository.update(producto);
+            return productoRepository.save(producto);
         }
         return null;
     }
 
-    // Eliminar un usuario
-    public void deleteById(String id) {
+    // Eliminar un producto
+    public void deleteById(Integer id) {
         productoRepository.deleteById(id);
     }
 }

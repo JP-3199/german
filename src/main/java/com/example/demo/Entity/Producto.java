@@ -1,54 +1,72 @@
 package com.example.demo.Entity;
 
-import java.util.UUID;
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "productos")
 public class Producto {
-    private String id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
     private String nombre;
-    private int precio;
+
+    @Column(nullable = false)
+    private Integer precio;
+
     private String calificacion;
+
     private String descripcion;
-    public Producto() { this.id = UUID.randomUUID().toString();}
-    public Producto(String nombre, int precio, String calificacion, String descripcion){
-        this.id = UUID.randomUUID().toString();
-        this.nombre=nombre;
-        this.precio=precio;
-        this.calificacion=calificacion;
+
+    // Constructor por defecto obligatorio para JPA y Jackson
+    public Producto() {
+    }
+
+    public Producto(String nombre, Integer precio, String calificacion, String descripcion) {
+        this.nombre = nombre;
+        this.precio = precio;
+        this.calificacion = calificacion;
         this.descripcion = descripcion;
     }
-    // Getters y Setters
 
-    public String getId() {
+    // --- Getters ---
+    public Integer getId() {
         return id;
     }
-
-    public void setId(String id) {this.id = id;}
 
     public String getNombre() {
         return nombre;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public int getPrecio() {
+    public Integer getPrecio() {
         return precio;
-    }
-
-    public void setPrecio(int precio) {
-        this.precio = precio;
     }
 
     public String getCalificacion() {
         return calificacion;
     }
 
-    public void setCalificacion(String calificacion) {
-        this.calificacion = calificacion;
-    }
-
     public String getDescripcion() {
         return descripcion;
+    }
+
+    // --- Setters ---
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setPrecio(Integer precio) {
+        this.precio = precio;
+    }
+
+    public void setCalificacion(String calificacion) {
+        this.calificacion = calificacion;
     }
 
     public void setDescripcion(String descripcion) {

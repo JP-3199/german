@@ -1,41 +1,78 @@
 package com.example.demo.Entity;
-import java.util.UUID;
+import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+// Ya no se importan Getter y Setter de Lombok
+
+@Entity
+@Table(name = "Usuarios")
+// Ya no se usan las anotaciones @Getter y @Setter a nivel de clase
 public class Usuario {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(nullable = false)
     private String nombre;
+
+    @Column(nullable = false)
+    private String apellidos;
+
+    @Column(nullable = false, unique = true)
     private String email;
-    private int edad;
+
+    @Column(nullable = false, unique = true)
+    private String pasword;
+
+
+    // Constructor por defecto (necesario para JPA y Jackson)
     public Usuario() {
-        this.id = UUID.randomUUID().toString();
-    }
-    public Usuario(String nombre, String email, int edad) {
-        this.id = UUID.randomUUID().toString();
-        this.nombre = nombre;
-        this.email = email;
-        this.edad = edad;
     }
 
-    // Getters y Setters
-    public String getId() {return id;}
-    public void setId(String id) {
-        this.id = id;
-    }
+    // --- Getters ---
+
+    public Integer getId() {return id;}
+
     public String getNombre() {
         return nombre;
     }
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+
+    public String getApellidos() {
+        return apellidos;
     }
+
     public String getEmail() {
         return email;
     }
+
+    public String getPasword() {
+        return pasword;
+    }
+
+
+    // --- Setters ---
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
-    public int getEdad() {
-        return edad;
-    }
-    public void setEdad(int edad) {
-        this.edad = edad;
-    }
+
+    public void setPasword(String pasword) {this.pasword = pasword;}
+
 }
